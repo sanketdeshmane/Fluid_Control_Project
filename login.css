@@ -1,0 +1,6 @@
+.login{
+    background-color: #9ba9e5 ;
+    background-image: -webkit-linear-gradient(65deg, #141e57 50%, #9ba9e5 50%);
+    min-height: 85vh;
+    font-family: 'helvetica neue';
+}
