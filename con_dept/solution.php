@@ -10,11 +10,11 @@ include('../include/con_dept/navbar.php');
         <div class="card shadow ">
             <div class="card-body">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <form action="server.php" method="POST">
+                <form action="server.php" method="POST" enctype="multipart/form-data">
                     <tbody>
                         <tr>
                             <td>Defect Id</td>
-                            <input type="hidden" name="id" value=<?php echo $id?>>
+                            
                             <td><?php echo $id?></td>
                         </tr>
                         <tr>
@@ -41,6 +41,7 @@ include('../include/con_dept/navbar.php');
                 </table>
             </div>
             <div class="ml-auto mb-3 mr-4">
+                <input type="hidden" name="id" value=<?php echo $id?>>
                 <button name="add_sol" class="btn btn-outline-success">Submit</button>
                 <button class="btn btn-outline-danger">Save for Later</button>
             </div>

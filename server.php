@@ -2,14 +2,13 @@
 
 session_start();
 
-$email = "";
-$pass="";
-
 $errors = array();
+
 
 //connect to db
 
 $link = mysqli_connect('localhost','root','','fluid_control');
+
 
 //register varibles
 if(isset($_POST["registerbtn"])){
@@ -56,6 +55,7 @@ if(isset($_POST["registerbtn"])){
         mysqli_query($link,$query);
         $_SESSION['email']=$email;
         $_SESSION['success']="YOU ARE NOW LOGGED IN";
+        mail("$email",'Sign UP','Successfully signed-up on Fluid control Pvt. Limited Defect Management System','From: fluidcontrol2711@gmail.com');
         if(strcmp($table_name,'con_dept') == 0){
             header('location: con_dept/con_index.php');
         }
@@ -101,4 +101,40 @@ if(isset($_POST["login"])){
     }
 }
 
-//logout
+//reset
+
+if(isset($_POST["reset_btn"])){
+    if( isset($_POST["email"])&& isset($_POST["password1"])&& isset($_POST["password2"])&& isset($_POST["option"])) {
+        $email = mysqli_real_escape_string($link,$_POST['email']);
+        $password1 = mysqli_real_escape_string($link,$_POST['password1']);
+        $password2 = mysqli_real_escape_string($link,$_POST['password2']);
+        $type = mysqli_real_escape_string($link,$_POST['option']);
+        if(strcmp($type,'Concerned Department') == 0){
+            $table_name = 'con_dept';
+        }
+        else{
+            $table_name = 'quality_control';
+        }
+        if(isset($password1) != isset($password2)){
+            array_push($errors,"password do not match");
+            
+        }
+        
+        if(count($errors)==0){
+            $pass = md5($password1);
+            $query = "UPDATE ".$table_name." SET password='$pass'  WHERE email='$email' ";
+            mysqli_query($link,$query);
+            $_SESSION['email']=$email;
+            $_SESSION['success']="YOU ARE NOW LOGGED IN";
+            if(strcmp($table_name,'con_dept') == 0){
+                header('location: con_dept/con_index.php');
+            }
+            else{
+                header('location: quality_dept/quality_index.php');
+            }
+        }
+
+    }
+
+}
+?>

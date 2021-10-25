@@ -34,7 +34,7 @@
                                                 </div>
                                                 <div class="mb-4">
                                                     <label>Choose Role</label>
-                                                    <select class="form-control" name="option" placeholder='Choose Role'>
+                                                    <select class="form-control" name="option" placeholder='Choose Role' required >
                                                         <option  disabled>Choose Role</option>
                                                         <option>Quality Control Department</option>
                                                         <option>Concerned Department</option>

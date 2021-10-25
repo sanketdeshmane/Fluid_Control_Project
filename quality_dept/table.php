@@ -20,7 +20,7 @@ switch($filter) {
         $query = "SELECT * FROM defects";
         break;
     case 'pending_defects':
-        $query = "SELECT * FROM defects WHERE found_by= '$id' and sol_status='1' and defect_status='REJECTED_1'and rejected_count='1'";
+        $query = "SELECT * FROM defects WHERE found_by= '$id'  and defect_status='DISAPPROVED'";
         break;
 }
 if($query)

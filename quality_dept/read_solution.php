@@ -33,15 +33,16 @@ include('../include/quality/navbar.php');
                         </tr>
                         <tr>
                             <td>Attachment</td>
-                            <td></td>
+                            <td><button class="btn btn-outline-info"onclick="window.open('<?php echo $file_name?>')">Open</button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            
             <div class="ml-auto mb-3 mr-4">
-                <form action="server.php" method="post">
+                <form action="server.php" method="post" enctype="multipart/form-data">
+
                     <input type="hidden" name="id" value=<?php echo $id?>>
+                    <input type="hidden" name="assigned_to" value=<?php echo $assigned_to?>>
                     <button name="accept_btn"class="btn btn-outline-success">Approve</button>
                     <button name="reject_btn" class="btn btn-outline-danger">Disapprove</button>
                 </form>

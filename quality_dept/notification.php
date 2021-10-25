@@ -55,6 +55,7 @@ echo '<tr>
         <input type="hidden" name="defect_name" value="'.$row['defect_name'].'">
         <input type="hidden" name="part_name" value="'.$row['part_name'].'">
         <input type="hidden" name="description" value="'.$row['description'].'">
+        <input type="hidden" name="assigned_to" value="'.$row['assigned_to'].'">
         <button type="submit" name="read_btn" class="btn btn-outline-info">Read</button>
     </form>
 </td> 

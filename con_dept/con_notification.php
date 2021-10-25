@@ -33,7 +33,6 @@ $result = getUserNotification($link,'con_dept');
                                 <th> Description </th>
                                 <th> Found By </th>
                                 <th> Found On </th>
-                                <th> Assigned to </th>
                                 <th> Due Date </th>
                                 <th> Solution </th>
                             </tr>
@@ -48,9 +47,8 @@ echo '<tr>
 <td>'.$row['defect_name'].'</td>
 <td>'.$row['part_name'].'</td>
 <td>'.$row['description'].'</td>
-<td>'.$row['found_by'].'</td>
+<td>'.get_name($link,'quality_control',$row['found_by']).'</td>
 <td>'.$row['found_on'].'</td>
-<td>'.$row['assigned_to'].'</td>
 <td>'.$row['due_date'].'</td>
 <td>
     <form action="solution.php" method="post">
