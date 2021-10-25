@@ -5,7 +5,6 @@ include('../include/con_dept/header.php');
 include('../include/con_dept/navbar.php');
 
 $result = getUserNotification($link,'con_dept');
-
 ?>
 
 <main>
@@ -70,6 +69,7 @@ $result = getUserNotification($link,'con_dept');
                                 <th> Found On </th>
                                 <th> Assigned to </th>
                                 <th> Due Date </th>
+                                <th> Status </th>
                                 <th> Solution </th>
                             </tr>
                         </thead>
@@ -83,10 +83,11 @@ echo '<tr>
 <td>'.$row['defect_name'].'</td>
 <td>'.$row['part_name'].'</td>
 <td>'.$row['description'].'</td>
-<td>'.$row['found_by'].'</td>
+<td>'.get_name($link,'quality_control',$row['found_by']).'</td>
 <td>'.$row['found_on'].'</td>
-<td>'.$row['assigned_to'].'</td>
+<td>'.get_name($link,'con_dept',$row['assigned_to']).'</td>
 <td>'.$row['due_date'].'</td>
+<td>'.$row['defect_status'].'</td>
 <td>
     <form action="solution.php" method="post">
         <input type="hidden" name="id" value="'.$row['id'].'">

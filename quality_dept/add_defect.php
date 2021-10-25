@@ -21,7 +21,8 @@ $str1 = generateEmpList($link,'quality_control');
                                         <h1 class="h4 text-gray-900 "style="padding-top:5px;padding-bottom:5px;">Add Defect</h1>
                                     </div>
                                     
-                                    <form class="user" method="post" enctype="multipart/form-data" action="server.php">
+                                    <form class="user" method="post" enctype="multipart/form-data" action="add_defect.php">
+                                    <?php include('../errors.php')?>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
@@ -31,7 +32,7 @@ $str1 = generateEmpList($link,'quality_control');
                                             </div>
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <label>Part Name</label>
+                                                    <label>Part Name<span class="asteriskField text-danger">*</span></label>
                                                     <input type="text" class="form-control" placeholder="Enter Part Where it Occured" name="part_name" required>
                                                 </div>
                                             </div>
@@ -40,7 +41,7 @@ $str1 = generateEmpList($link,'quality_control');
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Found By<span class="asteriskField text-danger">*</span></label>
-                                                    <select class="form-control" name="found_by" placeholder='Choose Role'>
+                                                    <select class="form-control" name="found_by" placeholder='Choose Role' required>
                                                         <?php echo $str1;?>
                                                     </select>
                                                 </div>
@@ -48,7 +49,7 @@ $str1 = generateEmpList($link,'quality_control');
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Assigned To<span class="asteriskField text-danger">*</span></label>
-                                                    <select class="form-control" name="assigned_to" placeholder='Choose Role'>
+                                                    <select class="form-control" name="assigned_to" placeholder='Choose Role' required>
                                                         <?php echo $str;?>
                                                     </select>
                                                 </div>
@@ -73,7 +74,7 @@ $str1 = generateEmpList($link,'quality_control');
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label class=" requiredField">Description<span class="asteriskField text-danger">*</span></label><br>
-                                                    <textarea class="form-control" name="description" rows="2" cols="50" placeholder="Enter Description of Defect"></textarea>
+                                                    <textarea class="form-control" name="description" rows="2" cols="50" placeholder="Enter Description of Defect" required></textarea>
                                                 </div>
                                             </div>
                                         </div>

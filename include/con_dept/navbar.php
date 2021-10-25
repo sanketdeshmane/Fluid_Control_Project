@@ -4,9 +4,9 @@
 		<a class="navbar-brand" href="" style="padding: 0;"><img class="logo" src="../assets/images.png" alt="fluid_control" width="auto" height="56px"></a> <a class="logout-button pl-3" id="sidebarToggle"><i class="fas fa-bars"style="color:black"></i></a>
 		<ul class="navbar-nav ml-auto ">
 			<li class="nav-item">
-					<form>
-						<a class="logout-button" type="button" name="logout-btn" href=""><i class="fas fa-power-off fa-2x"></i></a>
-					</form>
+                <form action="" method="post">
+                    <button class="logout-button" name="logout_btn" href=""><i class="fas fa-power-off fa-2x"></i></button>
+                </form>
 			</li>
 		</ul>
 	</nav>
@@ -19,7 +19,7 @@
                             <i class="fas fa-user-circle fa-3x pb-"style="color:white"></i>
                             <h4 class="profile-info-text pt-2"><?php echo $emp_name?></h4>
                             <h4 class="profile-info-text pb-3" style="font-size: small;">Concerned Department</h4>
-							<small class ="profile-info-text pb-3"><a href="" class="edit_profile">Edit Profile</a></small>
+							<small class ="profile-info-text pb-3"><a href="../edit_profile.php" class="edit_profile">Edit Profile</a></small>
                         </div><br>
                         <a class="pt-3 nav-link" href="con_index.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>

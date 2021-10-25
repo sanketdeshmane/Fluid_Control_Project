@@ -79,6 +79,7 @@ $result = getUserNotification($link,'quality_control');
                                 <th> Found On </th>
                                 <th> Assigned to </th>
                                 <th> Due Date </th>
+                                <th> Status </th>
                                 <th> Solution </th>
                             </tr>
                         </thead>
@@ -92,16 +93,18 @@ echo '<tr>
 <td>'.$row['defect_name'].'</td>
 <td>'.$row['part_name'].'</td>
 <td>'.$row['description'].'</td>
-<td>'.$row['found_by'].'</td>
+<td>'.get_name($link,'quality_control',$row['found_by']).'</td>
 <td>'.$row['found_on'].'</td>
-<td>'.$row['assigned_to'].'</td>
+<td>'.get_name($link,'con_dept',$row['assigned_to']).'</td>
 <td>'.$row['due_date'].'</td>
+<td>'.$row['defect_status'].'</td>
 <td>
-    <form action="read_solution.php" method="post">
+    <form action="read_solution.php" method="post" >
         <input type="hidden" name="id" value="'.$row['id'].'">
         <input type="hidden" name="defect_name" value="'.$row['defect_name'].'">
         <input type="hidden" name="part_name" value="'.$row['part_name'].'">
         <input type="hidden" name="description" value="'.$row['description'].'">
+        <input type="hidden" name="assigned_to" value="'.$row['assigned_to'].'">
         <button type="submit" name="read_btn" class="btn btn-outline-info">Read</button>
     </form>
 </td> 

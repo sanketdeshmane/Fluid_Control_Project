@@ -52,6 +52,8 @@
                                                 </div>
                                                 <div class="justify-content-center align-items-center">
                                                     <button type="submit" class="btn btn-outline-primary" name="registerbtn">Sign Up</button>
+                                                    
+                                               
                                                 </div> 
                                                 <div class="pt-2 small">
                                                     Already have an account? <a href="login.php">Login here</a>

@@ -31,9 +31,9 @@ $result = disapproved_notification($link,'con_dept');
                                 <th> Part Name  </th>
                                 <th> Description </th>
                                 <th> Found By </th>
-                                <th> Assigned to </th>
                                 <th> Due Date </th>
-                                <th> Solution </th>
+                                <th> Status </th>
+                                <th> Previous <br> Solution </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,9 +46,9 @@ echo '<tr>
 <td>'.$row['defect_name'].'</td>
 <td>'.$row['part_name'].'</td>
 <td>'.$row['description'].'</td>
-<td>'.$row['found_by'].'</td>
-<td>'.$row['assigned_to'].'</td>
+<td>'.get_name($link,'quality_control',$row['found_by']).'</td>
 <td>'.$row['due_date'].'</td>
+<td>'.$row['defect_status'].'</td>
 <td>
     <form action="read&writeAgain_solution.php" method="post">
         <input type="hidden" name="id" value="'.$row['id'].'">

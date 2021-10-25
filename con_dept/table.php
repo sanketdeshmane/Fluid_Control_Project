@@ -33,6 +33,8 @@ $result = getUserData($link,'con_dept');
                                 <th> Found By </th>
                                 <th> Found On </th>
                                 <th> Due Date </th>
+                                <th> Defect Status </th>
+                                <!-- <th> Solution </th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -45,9 +47,11 @@ echo '<tr>
 <td>'.$row['defect_name'].'</td>
 <td>'.$row['part_name'].'</td>
 <td>'.$row['description'].'</td>
-<td>'.$row['found_by'].'</td>
+<td>'.get_name($link,'quality_control',$row['found_by']).'</td>
 <td>'.$row['found_on'].'</td>
 <td>'.$row['due_date'].'</td>
+<td>'.$row['defect_status'].'</td>
+
 </tr>';
 
 }
@@ -66,3 +70,13 @@ echo '<tr>
 <?php
 include('../include/con_dept/footer.php');
 ?>
+
+<!-- // <td>
+//     <form action="solution.php" method="post">
+//         <input type="hidden" name="id" value="'.$row['id'].'">
+//         <input type="hidden" name="defect_name" value="'.$row['defect_name'].'">
+//         <input type="hidden" name="part_name" value="'.$row['part_name'].'">
+//         <input type="hidden" name="description" value="'.$row['description'].'">
+//         <button type="submit" name="write_btn" class="btn btn-outline-info">Write</button>
+//     </form>
+// </td> -->
