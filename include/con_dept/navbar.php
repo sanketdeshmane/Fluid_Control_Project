@@ -19,7 +19,7 @@
                             <i class="fas fa-user-circle fa-3x pb-"style="color:white"></i>
                             <h4 class="profile-info-text pt-2"><?php echo $emp_name?></h4>
                             <h4 class="profile-info-text pb-3" style="font-size: small;">Concerned Department</h4>
-							<small class ="profile-info-text pb-3"><a href="../edit_profile.php" class="edit_profile">Edit Profile</a></small>
+							<small class ="profile-info-text pb-3"><a href="edit_profile.php" class="edit_profile">Edit Profile</a></small>
                         </div><br>
                         <a class="pt-3 nav-link" href="con_index.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
@@ -40,7 +40,7 @@
                             Disapproved Solutions <br>
                         </a>
 						
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="analysis.php">
                             <div class="sb-nav-link-icon"><i class="fa fa-file"></i></div>
                             Analysis Report
                         </a>

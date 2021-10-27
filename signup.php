@@ -23,7 +23,7 @@
                                 <div class="col-lg-12">
                                     <div class="pl-5 pr-5 pb-2">
                                         <div class="text-center mt-3"><h4>Fluid Control Private Limited</h4></div>
-                                        <form action="server.php" method="POST">
+                                        <form action="signup.php" method="POST">
                                         <?php include('errors.php')?>
                                             <div class="p-4">
                                                 <div class="mb-3">

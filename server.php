@@ -9,6 +9,9 @@ $errors = array();
 
 $link = mysqli_connect('localhost','root','','fluid_control');
 
+function mail_function($email,$subject,$msg){
+    mail($email,$subject,$msg,'From: fluidcontrol2711@gmail.com');
+}
 
 //register varibles
 if(isset($_POST["registerbtn"])){
@@ -125,8 +128,12 @@ if(isset($_POST["reset_btn"])){
             $query = "UPDATE ".$table_name." SET password='$pass'  WHERE email='$email' ";
             mysqli_query($link,$query);
             $_SESSION['email']=$email;
+            $message = "Hello! Your password is successfully reset";
+            $subject="Password Reset ";
+            mail_function($email,$subject,$message);
             $_SESSION['success']="YOU ARE NOW LOGGED IN";
             if(strcmp($table_name,'con_dept') == 0){
+                
                 header('location: con_dept/con_index.php');
             }
             else{

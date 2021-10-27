@@ -131,6 +131,18 @@ function get_name($link,$table_name,$check){
     return $name;
 }
 
+
+function get_id($link,$table_name,$check){
+    $query = "SELECT * from ".$table_name." where email = '$check' limit 1";
+    $result = mysqli_query($link,$query);
+    $user = mysqli_fetch_assoc($result);
+    if($user){
+        if($user['email']===$check){
+            $id = $user['id'];
+        }
+    }
+    return $id;
+}
 // //logout btn
 if(isset($_POST['logout_btn'])){
     session_destroy();

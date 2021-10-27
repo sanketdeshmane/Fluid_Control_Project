@@ -14,6 +14,18 @@ function mail_function($email,$subject,$msg){
     mail($email,$subject,$msg,'From: fluidcontrol2711@gmail.com');
 }
 
+
+function get_id($link,$table_name,$check){
+    $query = "SELECT * from ".$table_name." where email = '$check' limit 1";
+    $result = mysqli_query($link,$query);
+    $user = mysqli_fetch_assoc($result);
+    if($user){
+        if($user['email']===$check){
+            $id = $user['id'];
+        }
+    }
+    return $id;
+}
 //add defects
 
 if(isset($_POST["add_btn"])){
