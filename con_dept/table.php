@@ -4,7 +4,34 @@ $emp_name = getName($link);
 include('../include/con_dept/header.php');
 include('../include/con_dept/navbar.php');
 
-$result = getUserData($link,'con_dept');
+//table rendering
+
+$filter = $_GET['data1'];
+$email=$_SESSION['email'];
+$query="";
+$id = "SELECT * from con_dept  where email = '$email' ";
+$result = mysqli_query($link,$id);
+$user = mysqli_fetch_assoc($result);
+if($user){
+    if($user['email']===$email){
+        $id=$user['id'];
+    }
+}
+switch($filter) {
+    case 'tot_defects':
+        $query = "SELECT * FROM defects";
+        break;
+    case 'expired':
+        $query = "SELECT * FROM defects WHERE assigned_to= '$id' and 
+                (defect_status='ASSIGNED' or defect_status='ACCEPTED_1' OR defect_status='REJECTED' OR defect_status='DISAPPROVED') 
+                and due_date <CURDATE()";
+        break;
+}
+if($query){
+    $result = mysqli_query($link,$query);
+}
+
+
 ?>
 
 <main style="margin-top: 30px;">
@@ -25,7 +52,10 @@ $result = getUserData($link,'con_dept');
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
-                            <tr>
+                            <?php
+                            if(isset($result) && strcmp($filter,'tot_defects') ===0) {
+                                echo'
+                                <tr>
                                 <th> Defect ID </th>
                                 <th> Defect Name </th>
                                 <th> Part Name  </th>
@@ -33,29 +63,60 @@ $result = getUserData($link,'con_dept');
                                 <th> Found By </th>
                                 <th> Found On </th>
                                 <th> Due Date </th>
-                                <th> Defect Status </th>
-                                <!-- <th> Solution </th> -->
-                            </tr>
+                                <th> Status </th>
+                            </tr>';
+                            }
+                            else if(isset($result) && strcmp($filter,'expired') ===0){
+                                echo'
+                                <tr>
+                                <th> Defect ID </th>
+                                <th> Defect Name </th>
+                                <th> Part Name  </th>
+                                <th> Description </th>
+                                <th> Found By </th>
+                                <th> Found On </th>
+                                <th> Due Date </th>
+                                <th> Status </th>
+                            </tr>';
+                            }
+                            ?>
                         </thead>
                         <tbody>
                         <?php
+if(isset($result) && strcmp($filter,'tot_defects') ===0)
+{
+    while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 
-while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+    echo '<tr>
+    <td>'.$row['id'].'</td>
+    <td>'.$row['defect_name'].'</td>
+    <td>'.$row['part_name'].'</td>
+    <td>'.$row['description'].'</td>
+    <td>'.get_name($link,'quality_control',$row['found_by']).'</td>
+    <td>'.$row['found_on'].'</td>
+    <td>'.$row['due_date'].'</td>
+    <td>'.$row['defect_status'].'</td>
 
-echo '<tr>
-<td>'.$row['id'].'</td>
-<td>'.$row['defect_name'].'</td>
-<td>'.$row['part_name'].'</td>
-<td>'.$row['description'].'</td>
-<td>'.get_name($link,'quality_control',$row['found_by']).'</td>
-<td>'.$row['found_on'].'</td>
-<td>'.$row['due_date'].'</td>
-<td>'.$row['defect_status'].'</td>
+    </tr>';
 
-</tr>';
-
+    }
 }
+else if(isset($result) && strcmp($filter,'expired') ===0){
+    while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 
+        echo '<tr>
+        <td>'.$row['id'].'</td>
+        <td>'.$row['defect_name'].'</td>
+        <td>'.$row['part_name'].'</td>
+        <td>'.$row['description'].'</td>
+        <td>'.get_name($link,'quality_control',$row['found_by']).'</td>
+        <td>'.$row['found_on'].'</td>
+        <td>'.$row['due_date'].'</td>
+        <td>'.$row['defect_status'].'</td>
+    
+        </tr>';
+    }
+}
 ?>
                         </tbody>
                     </table>

@@ -14,7 +14,6 @@ include('../include/con_dept/navbar.php');
                     <tbody>
                         <tr>
                             <td>Defect Id</td>
-                            
                             <td><?php echo $id?></td>
                         </tr>
                         <tr>
@@ -29,9 +28,17 @@ include('../include/con_dept/navbar.php');
                             <td>Description</td>
                             <td><?php echo $description?></td>
                         </tr>
+                        <!-- <tr>
+                            <td>Evidences</td>
+                            <td><button class="btn btn-outline-info" onclick="window.open('')">Open</button></td>
+                        </tr> -->
                         <tr>
-                            <td>Solution</td>
-                            <td><textarea class="form-control" name="solution" rows="5" cols="50" placeholder="Write Solution"></textarea></td>
+                            <td>Containment Action</td>
+                            <td><textarea class="form-control" name="solution" rows="2" cols="50" placeholder="Write Solution"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>Correction</td>
+                            <td><textarea class="form-control" name="correction" rows="2" cols="50" placeholder="Write Correction"></textarea></td>
                         </tr>
                         <tr>
                             <td>Attachment</td>
@@ -43,7 +50,7 @@ include('../include/con_dept/navbar.php');
             <div class="ml-auto mb-3 mr-4">
                 <input type="hidden" name="id" value=<?php echo $id?>>
                 <button name="add_sol" class="btn btn-outline-success">Submit</button>
-                <button class="btn btn-outline-danger">Save for Later</button>
+                <!-- <button class="btn btn-outline-danger">Save for Later</button> -->
             </div>
             </form>
         </div>

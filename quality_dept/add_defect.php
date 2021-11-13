@@ -18,7 +18,7 @@ $str1 = generateEmpList($link,'quality_control');
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 "style="padding-top:5px;padding-bottom:5px;">Add Defect</h1>
+                                        <h1 class="h4 text-gray-900 "style="padding-top:5px;padding-bottom:5px;">NC Report</h1>
                                     </div>
                                     
                                     <form class="user" method="post" enctype="multipart/form-data" action="add_defect.php">
@@ -55,26 +55,38 @@ $str1 = generateEmpList($link,'quality_control');
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label>Found on <span class="asteriskField text-danger">*</span></label>
-                                                    <input type="date" name="found_on" class="form-control" placeholder="Enter Date" required>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label>Due Date<span class="asteriskField text-danger">*</span></label><br>
-                                                    <input type="date" name="due_date" placeholder="Enter Due Date" class="form-control" required>
-                                                </div>
-                                            </div>
+                                            <!-- <div class="col">
+                                                <div class="form-group"> -->
+                                                    <!-- <label>Found on <span class="asteriskField text-danger">*</span></label> -->
+                                                    <input type="hidden" name="found_on" class="form-control" value="<?php echo date('y-m-d');?>" required>
+                                                <!-- </div>
+                                            </div> -->
+                                            <!-- <div class="col">
+                                                <div class="form-group"> -->
+                                                    <!-- <label>Due Date<span class="asteriskField text-danger">*</span></label><br> -->
+                                                    <input type="hidden" name="due_date" placeholder="Enter Due Date" value="<?php echo date('y-m-d', strtotime("+2 days"));?>"  required>
+                                                <!-- </div>
+                                            </div> -->
+                                            
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label class=" requiredField">Description<span class="asteriskField text-danger">*</span></label><br>
                                                     <textarea class="form-control" name="description" rows="2" cols="50" placeholder="Enter Description of Defect" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                        <div class="col">
+                                                <div class="form-group">
+                                                    <label>Evidence Attachment - <span class="asteriskField text-danger">*</span></label>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <input type="file"  name="evd_file">
                                                 </div>
                                             </div>
                                         </div>

@@ -35,7 +35,7 @@
             while(mysqli_fetch_assoc($fire)){
                 $disapted_count = $disapted_count+1;
             }
-            $sql = "SELECT  * FROM defects WHERE assigned_to= '$id' and defect_status='SUBMITTED'";
+            $sql = "SELECT  * FROM defects WHERE assigned_to= '$id' and defect_status='REJECTED'";
             $fire = mysqli_query($link,$sql);
             $sumbmit_count=0;
             while(mysqli_fetch_assoc($fire)){
@@ -47,17 +47,17 @@
             while(mysqli_fetch_assoc($fire)){
                 $assign_count = $assign_count+1;
             }
-            $sql = "SELECT  * FROM defects WHERE assigned_to= '$id' and defect_status='SUBMITTED_AGAIN'";
+            $sql = "SELECT  * FROM defects WHERE assigned_to= '$id' and defect_status='CLOSED'";
             $fire = mysqli_query($link,$sql);
-            $sumbmitagain_count=0;
+            $closed_count=0;
             while(mysqli_fetch_assoc($fire)){
-                $sumbmitagain_count = $sumbmitagain_count+1;
+                $closed_count = $closed_count+1;
             }
-            echo"['APPROVED',".$accpted_count."],";
-            echo"['SUBMITTED AGAIN',".$sumbmitagain_count."],";
-            echo"['ASSIGNED',".$sumbmitagain_count."],";
-            echo"['DISAPPROVED',".$disapted_count."],";
-            echo"['SUBMITTED',".$sumbmit_count."],";
+            echo"['APPROVED CONTAINMENT',".$accpted_count."],";
+            echo"['CLOSED DEFECT',".$closed_count."],";
+            echo"['ASSIGNED',".$assign_count."],";
+            echo"['DISAPPROVED CONTAINMENT',".$disapted_count."],";
+            echo"['REJECTED PROBLEM SOLUTION',".$sumbmit_count."],";
             
           ?>
         ]);

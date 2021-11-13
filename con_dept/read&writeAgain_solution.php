@@ -28,12 +28,12 @@ include('../include/con_dept/navbar.php');
                             <td><?php echo $description?></td>
                         </tr>
                         <tr>
-                            <td>Previous Solution</td>
+                            <td>Previous Containment Action</td>
                             <td><?php echo $solution?></td>
                         </tr>
                         <tr>
-                            <td>Previous Attachment</td>
-                            <td></td>
+                            <td>Previous Correction</td>
+                            <td><?php echo $correction?></td>
                         </tr>
                     </tbody>
                 </table>
