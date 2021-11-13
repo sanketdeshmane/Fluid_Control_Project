@@ -28,8 +28,12 @@ include('../include/quality/navbar.php');
                             <td><?php echo $description?></td>
                         </tr>
                         <tr>
-                            <td>Solution</td>
+                            <td>Containment Action</td>
                             <td><?php echo $solution?></td>
+                        </tr>
+                        <tr>
+                            <td>Correction</td>
+                            <td><?php echo $correction?></td>
                         </tr>
                         <tr>
                             <td>Attachment</td>

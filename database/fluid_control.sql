@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2021 at 05:41 PM
+-- Generation Time: Nov 13, 2021 at 12:46 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -59,6 +59,7 @@ CREATE TABLE `defects` (
   `found_on` date NOT NULL,
   `due_date` date NOT NULL,
   `description` text NOT NULL,
+  `evd_file` varchar(255) NOT NULL,
   `defect_status` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -66,13 +67,24 @@ CREATE TABLE `defects` (
 -- Dumping data for table `defects`
 --
 
-INSERT INTO `defects` (`id`, `defect_name`, `part_name`, `found_by`, `assigned_to`, `found_on`, `due_date`, `description`, `defect_status`) VALUES
-(33, 'turbine', 'motor', '4', '6', '2021-10-25', '2021-10-26', 'sjfiorehgkfdgjbthtefhf', 'ACCEPTED_1'),
-(34, 'sdgth', 'tgdbgvd', '4', '6', '2021-10-25', '2021-10-26', 'awfaegbde', NULL),
-(35, 'cxvdfnb', 'fdbfc ', '4', '6', '2021-10-26', '2021-10-26', 'ascdgevewger', 'SUBMITTED'),
-(36, 'vcbdfhrf', 'fbf', '4', '6', '2021-10-25', '2021-10-26', 'qwertyuytg', 'ACCEPTED_1'),
-(37, 'tdbghfn', 'motec', '4', '6', '2021-10-25', '2021-10-26', 'wdewtryj4etf', 'ACCEPTED_1'),
-(38, 'fdgdtfh', 'dfgbf', '4', '6', '2021-10-25', '2021-10-26', 'festgerg', 'ACCEPTED_1');
+INSERT INTO `defects` (`id`, `defect_name`, `part_name`, `found_by`, `assigned_to`, `found_on`, `due_date`, `description`, `evd_file`, `defect_status`) VALUES
+(67, 'vsdfv', 'sdrbfvr', '4', '6', '2021-11-13', '2021-11-28', 'regrv', 'resume.pdf', 'ACCEPTED_1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `problem_solving`
+--
+
+CREATE TABLE `problem_solving` (
+  `id` int(11) NOT NULL,
+  `defect_id` int(11) NOT NULL,
+  `why_appear` text NOT NULL,
+  `why_not_detected` text NOT NULL,
+  `occurancy_plan` text NOT NULL,
+  `Non_detection_plan` text NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -107,6 +119,7 @@ CREATE TABLE `solution` (
   `id` int(11) NOT NULL,
   `defect_id` int(11) NOT NULL,
   `solution` text NOT NULL,
+  `correction` text NOT NULL,
   `attachment` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -114,10 +127,9 @@ CREATE TABLE `solution` (
 -- Dumping data for table `solution`
 --
 
-INSERT INTO `solution` (`id`, `defect_id`, `solution`, `attachment`) VALUES
-(43, 38, 'Uploaded File', 'Project Certificate.pdf'),
-(44, 37, 'fvdrhbdgtng', 'Project Certificate.pdf'),
-(45, 36, 'Uploaded File', 'FTR 1.pptx');
+INSERT INTO `solution` (`id`, `defect_id`, `solution`, `correction`, `attachment`) VALUES
+(66, 67, 'rghe', 'hbtdgrbhg', ''),
+(67, 67, 'ntgdb', 'dgtrbr', '');
 
 --
 -- Indexes for dumped tables
@@ -134,6 +146,13 @@ ALTER TABLE `con_dept`
 --
 ALTER TABLE `defects`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `problem_solving`
+--
+ALTER TABLE `problem_solving`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `problem_solving` (`defect_id`);
 
 --
 -- Indexes for table `quality_control`
@@ -162,7 +181,13 @@ ALTER TABLE `con_dept`
 -- AUTO_INCREMENT for table `defects`
 --
 ALTER TABLE `defects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+
+--
+-- AUTO_INCREMENT for table `problem_solving`
+--
+ALTER TABLE `problem_solving`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `quality_control`
@@ -174,11 +199,17 @@ ALTER TABLE `quality_control`
 -- AUTO_INCREMENT for table `solution`
 --
 ALTER TABLE `solution`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `problem_solving`
+--
+ALTER TABLE `problem_solving`
+  ADD CONSTRAINT `problem_solving` FOREIGN KEY (`defect_id`) REFERENCES `defects` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `solution`

@@ -39,14 +39,19 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-exclamation"></i></div>
                             Disapproved Solutions <br>
                         </a>
+
+                        <a class="pt-3 nav-link" href="table.php?data1=expired">
+                            <div class="sb-nav-link-icon"><i class="fas fa-times"></i></div>
+                            Expired Containment<br> & Solutions<br>
+                        </a>
 						
                         <a class="nav-link" href="analysis.php">
                             <div class="sb-nav-link-icon"><i class="fa fa-file"></i></div>
                             Analysis Report
                         </a>
-						<a class="pt-3 nav-link" href="">
+						<a class="pt-3 nav-link" href="problem_solving.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
-                            Preventive Measures<br>
+                            Problem Solving<br>
                         </a>
                     </div>
                 </div>

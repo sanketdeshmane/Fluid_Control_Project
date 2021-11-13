@@ -7,8 +7,8 @@ $result = getUserNotification($link,'quality_control');
 ?>
 <main>
     <div class="container-fluid pt-4">
-        <div class="row mb-2">
-            <div class="col-xl-3 col-md-6 mb-3 mt-2">
+        <div class="row">
+            <div class="col-xl-3 col-md-6 mb-2 mt-2">
                 <div class="card bg-primary text-white">
                     <div class="card-body">Total Defects
                     </div>
@@ -18,7 +18,7 @@ $result = getUserNotification($link,'quality_control');
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 mb-3 mt-2">
+            <div class="col-xl-3 col-md-6 mb-2 mt-2">
                 <div class="card bg-success text-white">
                     <div class="card-body">Pending Defects
                     </div>
@@ -28,7 +28,7 @@ $result = getUserNotification($link,'quality_control');
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 mb-3 mt-2">
+            <div class="col-xl-3 col-md-6 mb-2 mt-2">
                 <div class="card bg-secondary text-white">
                     <div class="card-body">Total Analysis 
                     </div>
@@ -38,7 +38,7 @@ $result = getUserNotification($link,'quality_control');
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 mb-3 mt-2">
+            <div class="col-xl-3 col-md-6 mb-2 mt-2">
                 <div class="card bg-danger text-white">
                     <div class="card-body">Notifications
                     </div>
@@ -51,7 +51,7 @@ $result = getUserNotification($link,'quality_control');
         </div>
     </div>
 </main>
-<main style="margin-top: 30px;">
+<main style="margin-top: 15px;">
     <div class="container-fluid">
         <div class="card shadow mb-4">
             <div class="card-body">
@@ -60,7 +60,7 @@ $result = getUserNotification($link,'quality_control');
                         <div class="input-group">
                             <div class="mr-auto input-group-append">
                                 <span>
-                                    <label>Add New Defect -</label>
+                                    <label>NC Report -</label>
                                     <a href="add_defect.php"class="btn btn-outline-dark" type="submit">Add</a>
                                 </span>	
                             </div>
@@ -98,7 +98,9 @@ echo '<tr>
 <td>'.get_name($link,'con_dept',$row['assigned_to']).'</td>
 <td>'.$row['due_date'].'</td>
 <td>'.$row['defect_status'].'</td>
-<td>
+<td>';
+if($row['defect_status']=="SUBMITTED" ||$row['defect_status']=="SUBMITTED_AGAIN"){
+    echo '
     <form action="read_solution.php" method="post" >
         <input type="hidden" name="id" value="'.$row['id'].'">
         <input type="hidden" name="defect_name" value="'.$row['defect_name'].'">
@@ -107,6 +109,17 @@ echo '<tr>
         <input type="hidden" name="assigned_to" value="'.$row['assigned_to'].'">
         <button type="submit" name="read_btn" class="btn btn-outline-info">Read</button>
     </form>
+    ';
+}
+else if($row['defect_status']=="SUBMITTED_sol"||$row['defect_status']=="SUBMITTED_sol_again"){
+    echo '<form action="read_prob_solution.php" method="post">
+            <input type="hidden" name="id" value="'.$row['id'].'">
+            <input type="hidden" name="defect_name" value="'.$row['defect_name'].'">
+            <input type="hidden" name="assigned_to" value="'.$row['assigned_to'].'">
+            <button type="submit" name="read_prob_sol_btn" class="btn btn-outline-danger">Read Solution</button>
+        </form>';
+}
+echo'  
 </td> 
 </tr>';
 

@@ -30,14 +30,19 @@ function get_id($link,$table_name,$check){
 
 if(isset($_POST["add_btn"])){
     if( isset($_POST["defect_name"]) && isset($_POST["part_name"])&& isset($_POST["found_by"])&& isset($_POST["assigned_to"])
-    && isset($_POST["found_on"])&& isset($_POST["due_date"])&& isset($_POST["description"])) {
+    && isset($_POST["found_on"])&& isset($_POST["due_date"])&& isset($_POST["description"])&&isset($_FILES['evd_file']['name'])) {
         $defect_name = mysqli_real_escape_string($link,$_POST['defect_name']);
         $part_name = mysqli_real_escape_string($link,$_POST['part_name']);
         $found_by = mysqli_real_escape_string($link,$_POST['found_by']);
         $assigned_to = mysqli_real_escape_string($link,$_POST['assigned_to']);
         $found_on = mysqli_real_escape_string($link,$_POST['found_on']);
         $due_date = mysqli_real_escape_string($link,$_POST['due_date']);
-        $description = mysqli_real_escape_string($link,$_POST['description']);    
+        $description = mysqli_real_escape_string($link,$_POST['description']);
+         
+        $file_name=$_FILES['evd_file']['name'];
+        $tmp = $_FILES['evd_file']['tmp_name'];
+        $path="../assets/evidences/".$file_name;
+        move_uploaded_file($tmp,$path);
     }
     
     //checking if defect_name already exists
@@ -58,8 +63,8 @@ if(isset($_POST["add_btn"])){
         $pass = md5($password1);
         $found_by_name=get_name($link,'quality_control',$found_by);
         $assigned_to_mail=get_email($link,'con_dept',$assigned_to);
-        $query = "INSERT INTO defects (defect_name,part_name,found_by,assigned_to,found_on,due_date,description,defect_status) 
-        VALUES ('$defect_name','$part_name','$found_by','$assigned_to','$found_on','$due_date','$description','ASSIGNED')";
+        $query = "INSERT INTO defects (defect_name,part_name,found_by,assigned_to,found_on,due_date,description,evd_file,defect_status) 
+        VALUES ('$defect_name','$part_name','$found_by','$assigned_to','$found_on','$due_date','$description','$file_name','ASSIGNED')";
         mysqli_query($link,$query);
         $_SESSION['success']="added defect";
         $message = "Hello! You have a new notification. $found_by_name has added a defect. 
@@ -82,7 +87,8 @@ function getUserNotification($link,$type) {
             $id=$user['id'];
         }
     }
-    $query = "SELECT * FROM defects WHERE found_by= '$id' and (defect_status='SUBMITTED' or defect_status='SUBMITTED_AGAIN' )";
+    $query = "SELECT * FROM defects WHERE found_by= '$id' and 
+            (defect_status='SUBMITTED' or defect_status='SUBMITTED_AGAIN' or defect_status='SUBMITTED_sol' or defect_status='SUBMITTED_sol_again') LIMIT 5";
     //echo $query;
     $result = mysqli_query($link,$query);
     if(!$result) {
@@ -92,7 +98,25 @@ function getUserNotification($link,$type) {
     return $result;
 }
 
-
+function Notification($link,$type) {
+    $email=$_SESSION['email'];
+    $id = "SELECT * from ".$type."  where email = '$email' ";
+    $result = mysqli_query($link,$id);
+    $user = mysqli_fetch_assoc($result);
+    if($user){
+        if($user['email']===$email){
+            $id=$user['id'];
+        }
+    }
+    $query = "SELECT * FROM defects WHERE found_by= '$id' and (defect_status='SUBMITTED' or defect_status='SUBMITTED_AGAIN'or defect_status='SUBMITTED_sol' or defect_status='SUBMITTED_sol_again' )";
+    //echo $query;
+    $result = mysqli_query($link,$query);
+    if(!$result) {
+      echo mysqli_error($link);
+      return ;
+    } 
+    return $result;
+}
 
 
 //approve or disaprrove
@@ -105,12 +129,14 @@ if(isset($_POST['accept_btn']) || isset($_POST['reject_btn'])) {
         $message = "Hello! Your solution for defect having ID - $id is now approved.";
         $subject="Solution Approved";
         mail_function($assigned_to_mail,$subject,$message);
-        $query = "UPDATE defects SET defect_status = 'ACCEPTED_1' WHERE id = '$id' ";
+        $new_due=date('y-m-d', strtotime("+15 days"));
+        $query = "UPDATE defects SET defect_status = 'ACCEPTED_1',due_date='$new_due' WHERE id = '$id' ";
     } else {
         $message = "Hello! You have a new notification.  Your solution for defect having ID $id disapproved. Please write it again";
         $subject="Solution Disapproved";
         mail_function($assigned_to_mail,$subject,$message);
-        $query = "UPDATE defects SET defect_status = 'DISAPPROVED' WHERE id = '$id' ";
+        $new_due=date('y-m-d', strtotime("+2 days"));
+        $query = "UPDATE defects SET defect_status = 'DISAPPROVED',due_date='$new_due'WHERE id = '$id' ";
     }
     mysqli_query($link,$query);
     header('location: quality_index.php');
@@ -172,13 +198,11 @@ function get_name($link,$table_name,$check){
     return $name;
 }
 
-
 //logout btn
 if(isset($_POST['logout_btn'])){
     session_destroy();
     header('location:../login.php');
 }
-
 
 
 //read_sol btn
@@ -195,10 +219,78 @@ if(isset($_POST['read_btn'])) {
     if($user){
         if($user['defect_id']===$id){
             $solution=$user['solution'];
-            
+            $correction=$user['correction'];
             $file_name=$user['attachment'];
             $file_name="../assets/attachments/".$file_name;
         }
     }
 }
+
+
+if(isset($_POST['read_prob_sol_btn'])) {
+    $id = mysqli_real_escape_string($link,$_POST['id']);
+    $defect_name = mysqli_real_escape_string($link,$_POST['defect_name']);
+    $assigned_to = mysqli_real_escape_string($link,$_POST['assigned_to']);
+    $user_check_query = "SELECT * FROM solution WHERE defect_id= '$id' limit 1";
+    $result = mysqli_query($link,$user_check_query);
+    $user = mysqli_fetch_assoc($result);
+    if($user){
+        if($user['defect_id']===$id){
+            $solution=$user['solution'];
+            $correction=$user['correction'];
+            $file_name=$user['attachment'];
+            $file_name="../assets/attachments/".$file_name;
+        }
+    }
+    $user_check_query1 = "SELECT * FROM problem_solving WHERE defect_id= '$id' limit 1";
+    $result1 = mysqli_query($link,$user_check_query1);
+    $user1 = mysqli_fetch_assoc($result1);
+    if($user1){
+        if($user1['defect_id']===$id){
+            $why_appear=$user1['why_appear'];
+            $why_not_detected=$user1['why_not_detected'];
+            $occurancy_plan=$user1['occurancy_plan'];
+            $Non_detection_plan=$user1['Non_detection_plan']; 
+        }
+    }
+}
+
+if(isset($_POST['sol_accept_btn']) || isset($_POST['sol_reject_btn'])) {
+    $id = mysqli_real_escape_string($link,$_POST['id']);
+    $assigned_to=mysqli_real_escape_string($link,$_POST['assigned_to']);
+    $assigned_to_mail=get_email($link,'con_dept',$assigned_to);
+    if(isset($_POST['sol_accept_btn'])){
+        $message = "Hello! Your solution for defect having ID - $id is now approved.";
+        $subject="Solution Accepted";
+        mail_function($assigned_to_mail,$subject,$message);
+        $query = "UPDATE defects SET defect_status = 'CLOSED' WHERE id = '$id' ";
+        $query1 = "UPDATE problem_solving SET status = '1' WHERE defect_id = '$id' ";
+    } else {
+        $message = "Hello! You have a new notification.  Your solution for defect having ID $id disapproved. Please write it again";
+        $subject="Solution Rejected";
+        mail_function($assigned_to_mail,$subject,$message);
+        $new_due=date('y-m-d', strtotime("+15 days"));
+        $query = "UPDATE defects SET defect_status = 'REJECTED',due_date='$new_due' WHERE id = '$id' ";
+        $query1 = "UPDATE problem_solving SET status = '0' WHERE defect_id = '$id' ";
+    }
+    mysqli_query($link,$query);
+    mysqli_query($link,$query1);
+    header('location: quality_index.php');
+}
+
+if(isset($_POST['reset'])){
+    $id = mysqli_real_escape_string($link,$_POST['id']);
+    $due_date = mysqli_real_escape_string($link,$_POST['due_date']);
+    $query="UPDATE defects SET due_date='$due_date' WHERE id = '$id' ";
+    mysqli_query($link,$query);
+}
+
+
+
+
+
+
+
+
+
 ?>

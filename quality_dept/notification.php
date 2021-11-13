@@ -3,8 +3,7 @@ include('server.php');
 $emp_name = getName($link);
 include('../include/quality/header.php');
 include('../include/quality/navbar.php');
-$result = getUserNotification($link,'quality_control');
-
+$result = Notification($link,'quality_control');
 ?>
 
 
@@ -33,8 +32,8 @@ $result = getUserNotification($link,'quality_control');
                                 <th> Description </th>
                                 <th> Assigned to </th>
                                 <th> Due Date </th>
-                                <th> Solution </th>
                                 <th> Status </th>
+                                <th> Solution </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,23 +48,31 @@ echo '<tr>
 <td>'.$row['description'].'</td>
 <td>'.$row['assigned_to'].'</td>
 <td>'.$row['due_date'].'</td>
+<td>'.$row['defect_status'].'</td>
 <td>
-    <form action="read_solution.php" method="post">
-        <input type="hidden" name="id" value="'.$row['id'].'">
-        <input type="hidden" name="defect_name" value="'.$row['defect_name'].'">
-        <input type="hidden" name="part_name" value="'.$row['part_name'].'">
-        <input type="hidden" name="description" value="'.$row['description'].'">
-        <input type="hidden" name="assigned_to" value="'.$row['assigned_to'].'">
-        <button type="submit" name="read_btn" class="btn btn-outline-info">Read</button>
-    </form>
+';
+    if($row['defect_status']=="SUBMITTED_sol" || $row['defect_status']=="SUBMITTED_sol_again"){
+       echo '<form action="read_prob_solution.php" method="post">
+            <input type="hidden" name="id" value="'.$row['id'].'">
+            <input type="hidden" name="defect_name" value="'.$row['defect_name'].'">
+            <input type="hidden" name="assigned_to" value="'.$row['assigned_to'].'">
+            <button type="submit" name="read_prob_sol_btn" class="btn btn-outline-info">Read</button>
+        </form>';
+    }
+    else{
+        echo'<form action="read_solution.php" method="post">
+            <input type="hidden" name="id" value="'.$row['id'].'">
+            <input type="hidden" name="defect_name" value="'.$row['defect_name'].'">
+            <input type="hidden" name="part_name" value="'.$row['part_name'].'">
+            <input type="hidden" name="description" value="'.$row['description'].'">
+            <input type="hidden" name="assigned_to" value="'.$row['assigned_to'].'">
+            <button type="submit" name="read_btn" class="btn btn-outline-info">Read</button>
+        </form>';
+    }
+    echo'
+    
 </td> 
-<td>
-    <form action="server.php" method="post">
-        <input type="hidden" name="id" value="'.$row['id'].'">
-        <button name="accept_btn" class="btn btn-outline-success">Approve</button>
-        <button name="reject_btn" class="btn btn-outline-danger">Disapprove</button>
-    </form>
-</td>
+
 </tr>';
 }
 
