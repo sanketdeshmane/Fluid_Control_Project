@@ -252,50 +252,27 @@ if(isset($_POST['logout_btn'])){
 
 
 if(isset($_POST['add_sol'])){
-    if( isset($_POST["id"]) && isset($_POST["solution"]) && empty($_FILES['attachment_file']['name'])){
+    if( isset($_POST["id"]) && isset($_POST["solution"]) && isset($_POST["correction"]) && isset($_FILES['attachment_file']['name'])){
         $defect_id = mysqli_real_escape_string($link,$_POST['id']);
         $solution = mysqli_real_escape_string($link,$_POST['solution']);
         $correction = mysqli_real_escape_string($link,$_POST['correction']);
         
-        $user_check_query = "SELECT * FROM defects WHERE id= '$defect_id' limit 1";
-        $result = mysqli_query($link,$user_check_query);
-        $user = mysqli_fetch_assoc($result);
-        
-        if($user){
-            if($user['id']===$defect_id && $user['defect_status']==='DISAPPROVED'){
-                $query = "UPDATE solution SET solution='$solution', correction='$correction' WHERE defect_id ='$defect_id' ";
-                $update_defect_status = "UPDATE `defects` SET defect_status='SUBMITTED_AGAIN'  WHERE id ='$defect_id' ";
-            }
-            else{
-                $query = "INSERT INTO solution (defect_id,solution,correction) VALUES ('$defect_id','$solution','$correction')";
-                $update_defect_status = "UPDATE `defects` SET defect_status='SUBMITTED'  WHERE id ='$defect_id' ";
-            }
-        }
-        
-        mysqli_query($link,$query);
-        mysqli_query($link, $update_defect_status);
-        $_SESSION['success']="added solution";
-        header('location: con_index.php');
-    }
-    else if(isset($_POST["id"]) && isset($_FILES['attachment_file']['name']) && empty($_POST["solution"])){
         $file_name=$_FILES['attachment_file']['name'];
         $tmp = $_FILES['attachment_file']['tmp_name'];
         $path="../assets/attachments/".$file_name;
         move_uploaded_file($tmp,$path);
-        $defect_id = mysqli_real_escape_string($link,$_POST['id']);
-    
+
         $user_check_query = "SELECT * FROM defects WHERE id= '$defect_id' limit 1";
         $result = mysqli_query($link,$user_check_query);
         $user = mysqli_fetch_assoc($result);
         
         if($user){
             if($user['id']===$defect_id && $user['defect_status']==='DISAPPROVED'){
-                $query = "UPDATE solution SET attachment='$file_name'  WHERE defect_id ='$defect_id' ";
+                $query = "UPDATE solution SET solution='$solution', correction='$correction',attachment='$file_name' WHERE defect_id ='$defect_id' ";
                 $update_defect_status = "UPDATE `defects` SET defect_status='SUBMITTED_AGAIN'  WHERE id ='$defect_id' ";
             }
             else{
-                $MSG="Uploaded File";
-                $query = "INSERT INTO solution (defect_id,solution,attachment) VALUES ('$defect_id','$MSG','$file_name')";
+                $query = "INSERT INTO solution (defect_id,solution,correction,attachment) VALUES ('$defect_id','$solution','$correction','$file_name')";
                 $update_defect_status = "UPDATE `defects` SET defect_status='SUBMITTED'  WHERE id ='$defect_id' ";
             }
         }
@@ -305,35 +282,67 @@ if(isset($_POST['add_sol'])){
         $_SESSION['success']="added solution";
         header('location: con_index.php');
     }
+    // else if(isset($_POST["id"]) && isset($_FILES['attachment_file']['name']) && empty($_POST["correction"]) && empty($_POST["solution"])){
+    //     $file_name=$_FILES['attachment_file']['name'];
+    //     $tmp = $_FILES['attachment_file']['tmp_name'];
+    //     $path="../assets/attachments/".$file_name;
+    //     move_uploaded_file($tmp,$path);
+    //     $defect_id = mysqli_real_escape_string($link,$_POST['id']);
+    
+    //     $user_check_query = "SELECT * FROM defects WHERE id= '$defect_id' limit 1";
+    //     $result = mysqli_query($link,$user_check_query);
+    //     $user = mysqli_fetch_assoc($result);
+        
+    //     if($user){
+    //         if($user['id']===$defect_id && $user['defect_status']==='DISAPPROVED'){
+    //             $query = "UPDATE solution SET attachment='$file_name'  WHERE defect_id ='$defect_id' ";
+    //             $update_defect_status = "UPDATE `defects` SET defect_status='SUBMITTED_AGAIN'  WHERE id ='$defect_id' ";
+    //         }
+    //         else{
+    //             $MSG="Uploaded File";
+    //             $query = "INSERT INTO solution (defect_id,solution,attachment) VALUES ('$defect_id','$MSG','$file_name')";
+    //             $update_defect_status = "UPDATE `defects` SET defect_status='SUBMITTED'  WHERE id ='$defect_id' ";
+    //         }
+    //     }
+        
+    //     mysqli_query($link,$query);
+    //     mysqli_query($link, $update_defect_status);
+    //     $_SESSION['success']="added solution";
+    //     header('location: con_index.php');
+    // }
+    // else{
+    //     $defect_id = mysqli_real_escape_string($link,$_POST['id']);
+    //     $solution = mysqli_real_escape_string($link,$_POST['solution']);
+        
+    //     $file_name=$_FILES['attachment_file']['name'];
+    //     $tmp = $_FILES['attachment_file']['tmp_name'];
+    //     $path="../assets/attachments/".$file_name;
+    //     move_uploaded_file($tmp,$path);
+    //     $user_check_query = "SELECT * FROM defects WHERE id= '$defect_id' limit 1";
+    //     $result = mysqli_query($link,$user_check_query);
+    //     $user = mysqli_fetch_assoc($result);
+        
+    //     if($user){
+    //         if($user['id']===$defect_id && $user['defect_status']==='DISAPPROVED'){
+    //             $query = "UPDATE solution SET solution='$solution' and attachment='$file_name'  WHERE defect_id ='$defect_id' ";
+    //             $update_defect_status = "UPDATE `defects` SET defect_status='SUBMITTED_AGAIN'  WHERE id ='$defect_id' ";
+    //         }
+    //         else{
+    //             $query = "INSERT INTO solution (defect_id,solution,attachment) VALUES ('$defect_id','$solution','$file_name')";
+    //             $update_defect_status = "UPDATE `defects` SET defect_status='SUBMITTED'  WHERE id ='$defect_id' ";
+    //         }
+    //     }
+        
+    //     mysqli_query($link,$query);
+    //     mysqli_query($link, $update_defect_status);
+    //     $_SESSION['success']="added solution";
+    //     header('location: con_index.php');
+    // }
     else{
-        $defect_id = mysqli_real_escape_string($link,$_POST['id']);
-        $solution = mysqli_real_escape_string($link,$_POST['solution']);
-        
-        $file_name=$_FILES['attachment_file']['name'];
-        $tmp = $_FILES['attachment_file']['tmp_name'];
-        $path="../assets/attachments/".$file_name;
-        move_uploaded_file($tmp,$path);
-        $user_check_query = "SELECT * FROM defects WHERE id= '$defect_id' limit 1";
-        $result = mysqli_query($link,$user_check_query);
-        $user = mysqli_fetch_assoc($result);
-        
-        if($user){
-            if($user['id']===$defect_id && $user['defect_status']==='DISAPPROVED'){
-                $query = "UPDATE solution SET solution='$solution' and attachment='$file_name'  WHERE defect_id ='$defect_id' ";
-                $update_defect_status = "UPDATE `defects` SET defect_status='SUBMITTED_AGAIN'  WHERE id ='$defect_id' ";
-            }
-            else{
-                $query = "INSERT INTO solution (defect_id,solution,attachment) VALUES ('$defect_id','$solution','$file_name')";
-                $update_defect_status = "UPDATE `defects` SET defect_status='SUBMITTED'  WHERE id ='$defect_id' ";
-            }
-        }
-        
-        mysqli_query($link,$query);
-        mysqli_query($link, $update_defect_status);
-        $_SESSION['success']="added solution";
-        header('location: con_index.php');
+        if(empty($solution)){array_push($errors,"Provide Containment Action");}
+        if(empty($correction)){array_push($errors,"Provide correction");}
+        if(empty($attachment_file)){array_push($errors,"Provide attachment_file");}
     }
-    
 }
 
 

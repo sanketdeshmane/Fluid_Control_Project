@@ -9,6 +9,7 @@ include('../include/quality/navbar.php');
     <div class="container-fluid">
         <div class="card shadow ">
             <div class="card-body">
+                <form action="server.php" method="post" enctype="multipart/form-data">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <tbody>
                         <tr>
@@ -39,19 +40,21 @@ include('../include/quality/navbar.php');
                             <td>Attachment</td>
                             <td><button class="btn btn-outline-info"onclick="window.open('<?php echo $file_name?>')">Open</button></td>
                         </tr>
+                        <tr>
+                            <td>Comment</td>
+                            <td><textarea class="form-control" name="cmt" rows="2" cols="50" placeholder="Write Comment"></textarea></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <div class="ml-auto mb-3 mr-4">
-                <form action="server.php" method="post" enctype="multipart/form-data">
-
                     <input type="hidden" name="id" value=<?php echo $id?>>
                     <input type="hidden" name="assigned_to" value=<?php echo $assigned_to?>>
                     <button name="accept_btn"class="btn btn-outline-success">Approve</button>
                     <button name="reject_btn" class="btn btn-outline-danger">Disapprove</button>
                 </form>
             </div>
-          
+
         </div>
     </div>
 </main>

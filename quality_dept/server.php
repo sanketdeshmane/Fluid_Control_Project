@@ -125,14 +125,15 @@ if(isset($_POST['accept_btn']) || isset($_POST['reject_btn'])) {
     $id = mysqli_real_escape_string($link,$_POST['id']);
     $assigned_to=mysqli_real_escape_string($link,$_POST['assigned_to']);
     $assigned_to_mail=get_email($link,'con_dept',$assigned_to);
+    $cmt=mysqli_real_escape_string($link,$_POST['cmt']);
     if(isset($_POST['accept_btn'])){
-        $message = "Hello! Your solution for defect having ID - $id is now approved.";
+        $message = "Hello! Your solution for defect having ID - $id is now approved with a comment as - $cmt";
         $subject="Solution Approved";
         mail_function($assigned_to_mail,$subject,$message);
         $new_due=date('y-m-d', strtotime("+15 days"));
         $query = "UPDATE defects SET defect_status = 'ACCEPTED_1',due_date='$new_due' WHERE id = '$id' ";
     } else {
-        $message = "Hello! You have a new notification.  Your solution for defect having ID $id disapproved. Please write it again";
+        $message = "Hello! Your solution for defect having ID $id disapproved with a comment as - $cmt. Please write it again";
         $subject="Solution Disapproved";
         mail_function($assigned_to_mail,$subject,$message);
         $new_due=date('y-m-d', strtotime("+2 days"));
@@ -259,14 +260,15 @@ if(isset($_POST['sol_accept_btn']) || isset($_POST['sol_reject_btn'])) {
     $id = mysqli_real_escape_string($link,$_POST['id']);
     $assigned_to=mysqli_real_escape_string($link,$_POST['assigned_to']);
     $assigned_to_mail=get_email($link,'con_dept',$assigned_to);
+    $cmt=mysqli_real_escape_string($link,$_POST['cmt']);
     if(isset($_POST['sol_accept_btn'])){
-        $message = "Hello! Your solution for defect having ID - $id is now approved.";
+        $message = "Hello! Your solution for defect having ID - $id is now approved with a comment as - $cmt.";
         $subject="Solution Accepted";
         mail_function($assigned_to_mail,$subject,$message);
         $query = "UPDATE defects SET defect_status = 'CLOSED' WHERE id = '$id' ";
         $query1 = "UPDATE problem_solving SET status = '1' WHERE defect_id = '$id' ";
     } else {
-        $message = "Hello! You have a new notification.  Your solution for defect having ID $id disapproved. Please write it again";
+        $message = "Hello! You have a new notification.  Your solution for defect having ID $id disapproved with a comment as - $cmt. Please write it again";
         $subject="Solution Rejected";
         mail_function($assigned_to_mail,$subject,$message);
         $new_due=date('y-m-d', strtotime("+15 days"));
