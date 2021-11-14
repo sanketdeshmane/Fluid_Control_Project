@@ -11,6 +11,7 @@ include('../include/con_dept/navbar.php');
             <div class="card-body">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <form action="server.php" method="POST" enctype="multipart/form-data">
+                <?php include('../errors.php')?>
                     <tbody>
                         <tr>
                             <td>Defect Id</td>
@@ -34,15 +35,15 @@ include('../include/con_dept/navbar.php');
                         </tr> -->
                         <tr>
                             <td>Containment Action</td>
-                            <td><textarea class="form-control" name="solution" rows="2" cols="50" placeholder="Write Solution"></textarea></td>
+                            <td><textarea class="form-control" name="solution" rows="2" cols="50" placeholder="Write Solution"required ></textarea></td>
                         </tr>
                         <tr>
                             <td>Correction</td>
-                            <td><textarea class="form-control" name="correction" rows="2" cols="50" placeholder="Write Correction"></textarea></td>
+                            <td><textarea class="form-control" name="correction" rows="2" cols="50" placeholder="Write Correction"required></textarea></td>
                         </tr>
                         <tr>
                             <td>Attachment</td>
-                            <td><input type="file"  name="attachment_file"></td>
+                            <td><input type="file"  name="attachment_file" required></td>
                         </tr>
                     </tbody>
                 </table>
