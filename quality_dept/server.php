@@ -2,6 +2,8 @@
 
 session_start();
 
+require ('../vendor/autoload.php');
+
 $errors = array();
 
 $reject_count=0;
@@ -9,6 +11,166 @@ $reject_count=0;
 //connect to db
 
 $link = mysqli_connect('localhost','root','','fluid_control');
+
+if(isset($_POST["download_cont_btn"])){
+    $id = mysqli_real_escape_string($link,$_POST['id']);
+    $defect_name = mysqli_real_escape_string($link,$_POST['defect_name']);
+    $part_name = mysqli_real_escape_string($link,$_POST['part_name']);
+    $description = mysqli_real_escape_string($link,$_POST['description']);
+    $found_by = mysqli_real_escape_string($link,$_POST['found_by']);
+    $assigned_to = mysqli_real_escape_string($link,$_POST['assigned_to']);
+    $found_on = mysqli_real_escape_string($link,$_POST['found_on']);
+    $due_date = mysqli_real_escape_string($link,$_POST['due_date']);
+    $containment = mysqli_real_escape_string($link,$_POST['containment']);
+    $correction = mysqli_real_escape_string($link,$_POST['correction']);
+
+    $html="";
+    $html='<center><h1>DEFECT MANAGMENT SYSTEM</h1><h4>Fluid Control Pvt. Limited</h4></center><table>';
+    $html.='<tr>
+                <td>Defect ID - </td>
+                <td>'.$id.'</td>
+            </tr>
+            <tr>
+                <td>Defect Name - </td>
+                <td>'.$defect_name.'</td>
+            </tr>
+            <tr>
+                <td>Part Name - </td>
+                <td>'.$part_name.'</td>
+            </tr>
+            <tr>
+                <td>Description - </td>
+                <td>'.$description.'</td>
+            </tr>
+            <tr>
+                <td>Found by - </td>
+                <td>'.get_name($link,'quality_control',$found_by).'</td>
+            </tr>
+            <tr>
+                <td>Assigned to - </td>
+                <td>'.get_name($link,'con_dept',$assigned_to).'</td>
+            </tr>
+            <tr>
+                <td>found_on - </td>
+                <td>'.$found_on.'</td>
+            </tr>
+            <tr>
+                <td>Due Date - </td>
+                <td>'.$due_date.'</td>
+            </tr>
+            <tr>
+                <td>Containment - </td>
+                <td>'.$containment.'</td>
+            </tr>
+            <tr>
+                <td>Correction - </td>
+                <td>'.$correction.'</td>
+            </tr>
+            <tr>
+                <td>Status - </td>
+                <td>Working</td>
+            </tr>';
+            
+    $html.='</table>';
+    $mpdf = new Mpdf\Mpdf();
+    $mpdf->WriteHTML($html);
+    $file=time().'.pdf';
+    $mpdf->output($file,'D');
+    echo $html;
+}
+
+
+if(isset($_POST["download_btn"])){
+    $id = mysqli_real_escape_string($link,$_POST['id']);
+    $defect_name = mysqli_real_escape_string($link,$_POST['defect_name']);
+    $part_name = mysqli_real_escape_string($link,$_POST['part_name']);
+    $description = mysqli_real_escape_string($link,$_POST['description']);
+    $found_by = mysqli_real_escape_string($link,$_POST['found_by']);
+    $assigned_to = mysqli_real_escape_string($link,$_POST['assigned_to']);
+    $found_on = mysqli_real_escape_string($link,$_POST['found_on']);
+    $due_date = mysqli_real_escape_string($link,$_POST['due_date']);
+    $containment = mysqli_real_escape_string($link,$_POST['containment']);
+    $correction = mysqli_real_escape_string($link,$_POST['correction']);
+    $why_appear = mysqli_real_escape_string($link,$_POST['why_appear']);
+    $why_not_detected = mysqli_real_escape_string($link,$_POST['why_not_detected']);
+    $occurancy_plan = mysqli_real_escape_string($link,$_POST['occurancy_plan']);
+    $Non_detection_plan = mysqli_real_escape_string($link,$_POST['Non_detection_plan']);
+
+    $html="";
+    $html='<center><h1>DEFECT MANAGMENT SYSTEM</h1><h4>Fluid Control Pvt. Limited</h4></center><table>';
+    $html.='<tr>
+                <td>Defect ID - </td>
+                <td>'.$id.'</td>
+            </tr>
+            <tr>
+                <td>Defect Name - </td>
+                <td>'.$defect_name.'</td>
+            </tr>
+            <tr>
+                <td>Part Name - </td>
+                <td>'.$part_name.'</td>
+            </tr>
+            <tr>
+                <td>Description - </td>
+                <td>'.$description.'</td>
+            </tr>
+            <tr>
+                <td>Found by - </td>
+                <td>'.get_name($link,'quality_control',$found_by).'</td>
+            </tr>
+            <tr>
+                <td>Assigned to - </td>
+                <td>'.get_name($link,'con_dept',$assigned_to).'</td>
+            </tr>
+            <tr>
+                <td>found_on - </td>
+                <td>'.$found_on.'</td>
+            </tr>
+            <tr>
+                <td>Due Date - </td>
+                <td>'.$due_date.'</td>
+            </tr>
+            <tr>
+                <td>Containment - </td>
+                <td>'.$containment.'</td>
+            </tr>
+            <tr>
+                <td>Correction - </td>
+                <td>'.$correction.'</td>
+            </tr>
+            <tr>
+                <td>Why Defect Appear? - </td>
+                <td>'.$why_appear.'</td>
+            </tr>
+            <tr>
+                <td>Why the defect was not detected? - </td>
+                <td>'.$why_not_detected.'</td>
+            </tr>
+            <tr>
+                <td>Occurancy Proposed Action Plan - </td>
+                <td>'.$occurancy_plan.'</td>
+            </tr>
+            <tr>
+                <td>Non detection Proposed Action Plan - </td>
+                <td>'.$Non_detection_plan.'</td>
+            </tr>
+            <tr>
+                <td>Status - </td>
+                <td>Closed</td>
+            </tr>';
+            
+    $html.='</table>';
+    $mpdf = new Mpdf\Mpdf();
+    $mpdf->WriteHTML($html);
+    $file=time().'.pdf';
+    $mpdf->output($file,'D');
+    echo $html;
+}
+
+
+
+
+
 
 function mail_function($email,$subject,$msg){
     mail($email,$subject,$msg,'From: fluidcontrol2711@gmail.com');

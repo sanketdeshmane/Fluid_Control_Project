@@ -136,7 +136,7 @@ form.user .btn-user {
     }
     #layoutSidenav #layoutSidenav_content {
         margin-left: 0;
-        transition: margin 0.15s ease-in-out;
+        transition: translate 0.15s ease-in-out;
     }
     .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
         transform: translateX(-225px);

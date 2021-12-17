@@ -30,7 +30,7 @@ include('../include/quality/navbar.php');
                         </tr>
                         <tr>
                             <td>Attachment</td>
-                            <td><button class="btn btn-outline-info"onclick="window.open('<?php echo $file_name?>')">Open</button></td>
+                            <td><button class="btn btn-outline-info"><a target="_blank" href="<?php echo $file_name;?>">Open</a></button></td>
                         </tr>
                         <tr>
                             <td>Why the defect <br>appear?</td>

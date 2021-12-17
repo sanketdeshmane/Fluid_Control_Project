@@ -9,7 +9,7 @@ include('../include/quality/navbar.php');
     <div class="container-fluid">
         <div class="card shadow ">
             <div class="card-body">
-                <form action="server.php" method="post" enctype="multipart/form-data">
+                <form action="read_solution.php" method="post" enctype="multipart/form-data">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <tbody>
                         <tr>
@@ -38,7 +38,7 @@ include('../include/quality/navbar.php');
                         </tr>
                         <tr>
                             <td>Attachment</td>
-                            <td><button class="btn btn-outline-info"onclick="window.open('<?php echo $file_name?>')">Open</button></td>
+                            <td><button class="btn btn-outline-info"><a target="_blank" href="<?php echo $file_name;?>">Open</a></button></td>
                         </tr>
                         <tr>
                             <td>Comment</td>
