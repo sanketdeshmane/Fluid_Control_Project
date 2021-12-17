@@ -67,6 +67,7 @@ echo '
 <th> Assigned to </th>
 <th> Due Date </th>
 <th> Status </th>
+
 </tr>
 ';
 } else if(isset($result) && strcmp($filter,'pending_defects') ===0) {
@@ -176,7 +177,7 @@ else if (isset($result) && strcmp($filter,'expired') ===0){
                         <form action="table.php?data=expired" method="post">
                             <input type="hidden" name="id" value="'.$row['id'].'">
                             <input type="hidden" name="due_date" value="'.date("y-m-d", strtotime("+2 days")).'">
-                            <button type="submit" name="reset" class="btn btn-outline-info">Read</button>
+                            <button type="submit" name="reset" class="btn btn-outline-info">Reset</button>
                         </form>
                     ';
                 }

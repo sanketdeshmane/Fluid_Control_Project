@@ -35,6 +35,7 @@ if($query){
                                 <th> Occurancy Proposed <br>Action Plan</th>
                                 <th>Non detection Proposed<br> Action Plan</th>
                                 <th> Status </th>
+                                <th> Download </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,7 +54,76 @@ if($row['status']==='0'){
 else{
     echo 'Closed';
 }
-'</td> 
+echo'</td> 
+<td>';
+$id=$row['defect_id'];
+$query = "SELECT * from defects where id = $id";
+$res = mysqli_query($link,$query);
+while($row1 = mysqli_fetch_array($res,MYSQLI_ASSOC)){
+    $id=$row1['id'];
+    $defect_name=$row1['defect_name'];
+    $part_name=$row1['part_name'];
+    $description=$row1['description'];
+    $found_by=$row1['found_by'];
+    $assigned_to=$row1['assigned_to'];
+    $found_on=$row1['found_on'];
+    $due_date=$row1['due_date'];
+};
+$query1 = "SELECT * from solution where defect_id = $id";
+$res = mysqli_query($link,$query1);
+while($row2 = mysqli_fetch_array($res,MYSQLI_ASSOC)){
+    $containment=$row2['solution'];
+    $correction=$row2['correction'];
+};
+$query2 = "SELECT * from problem_solving where defect_id = $id";
+$res = mysqli_query($link,$query2);
+while($row3 = mysqli_fetch_array($res,MYSQLI_ASSOC)){
+    $why_appear=$row3['why_appear'];
+    $why_not_detected=$row3['why_not_detected'];
+    $occurancy_plan=$row3['occurancy_plan'];
+    $Non_detection_plan=$row3['Non_detection_plan'];
+};
+if($row['status']==='0'){
+    // echo $id;
+    echo '
+    <form action="server.php" method="post" >
+        <input type="hidden" name="id" value=" '.$id.' " >
+        <input type="hidden" name="defect_name" value="'.$defect_name.'">
+        <input type="hidden" name="part_name" value="'.$part_name.'">
+        <input type="hidden" name="description" value="'.$description.'">
+        <input type="hidden" name="found_by" value="'.$found_by.'">
+        <input type="hidden" name="assigned_to" value="'.$assigned_to.'">
+        <input type="hidden" name="found_on" value="'.$found_on.'">
+        <input type="hidden" name="due_date" value="'.$due_date.'">
+        <input type="hidden" name="containment" value="'.$containment.'">
+        <input type="hidden" name="correction" value="'.$correction.'">
+        <button type="submit" name="download_cont_btn" class="btn btn-outline-info">Download</button>
+    </form>
+    ';
+}
+else{
+    // echo $id;
+    echo '
+    <form action="server.php" method="post" >
+        <input type="hidden" name="id" value="'.$id.'">
+        <input type="hidden" name="defect_name" value="'.$defect_name.'">
+        <input type="hidden" name="part_name" value="'.$part_name.'">
+        <input type="hidden" name="description" value="'.$description.'">
+        <input type="hidden" name="found_by" value="'.$found_by.'">
+        <input type="hidden" name="assigned_to" value="'.$assigned_to.'">
+        <input type="hidden" name="found_on" value="'.$found_on.'">
+        <input type="hidden" name="due_date" value="'.$due_date.'">
+        <input type="hidden" name="containment" value="'.$containment.'">
+        <input type="hidden" name="correction" value="'.$correction.'">
+        <input type="hidden" name="why_appear" value="'.$why_appear.'">
+        <input type="hidden" name="why_not_detected" value="'.$why_not_detected.'">
+        <input type="hidden" name="occurancy_plan" value="'.$occurancy_plan.'">
+        <input type="hidden" name="Non_detection_plan" value="'.$Non_detection_plan.'">
+        <button type="submit" name="download_btn" class="btn btn-outline-info">Download</button>
+    </form>
+    ';
+}echo'
+</td>
 </tr>'; 
 }
 

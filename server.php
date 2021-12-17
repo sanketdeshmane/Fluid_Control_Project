@@ -23,6 +23,9 @@ if(isset($_POST["registerbtn"])){
         $type = mysqli_real_escape_string($link,$_POST['option']);
         if(strcmp($type,'Concerned Department') == 0){
             $table_name = 'con_dept';
+            $message = "Hello! You are now signed in to fluid control Defect Management System";
+            $subject="Successfully Signed Up";
+            mail_function($email,$subject,$message);
         }
         else{
             $table_name = 'quality_control';
