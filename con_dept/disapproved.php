@@ -4,6 +4,28 @@ $emp_name = getName($link);
 include('../include/con_dept/header.php');
 include('../include/con_dept/navbar.php');
 $result = disapproved_notification($link,'con_dept');
+
+$email=$_SESSION['email'];
+$id = "SELECT * from con_dept  where email = '$email' ";
+$res = mysqli_query($link,$id);
+$user = mysqli_fetch_assoc($res);
+if($user){
+    if($user['email']===$email){
+        $id=$user['id'];
+    }
+}
+if(isset($_POST['search_btn'])) {
+    $defect_id = mysqli_real_escape_string($link,$_POST['search']);
+    $query = "SELECT * FROM defects WHERE assigned_to= '$id'and id='$defect_id' and (defect_status='DISAPPROVED' or defect_status='REJECTED' )";
+    if($query)
+    {
+        $result = mysqli_query($link,$query);
+        if(!$result)
+            echo "<div class='alert alert-danger'>No data available!<br>".mysqli_error($link)."</div>";
+    }
+}
+
+
 ?>
 
 <main style="margin-top: 30px;">
@@ -13,10 +35,11 @@ $result = disapproved_notification($link,'con_dept');
                 <div class="text-right mb-3">
                     <form method="post">
                         <div class="input-group">
-                            <input type="text" placeholder="Search Defect or Defect ID or Found On Date in format DD-MM-YYYY" class="form-control" name="search" {% if search_query %}value="{{ search_query }}"{% endif %}>
+                            <input type="text" placeholder="Search Defect ID" class="form-control" name="search">
                             <div class="input-group-append">
                                 <input class="btn btn-outline-dark" type="hidden">
-                                <button class="btn btn-outline-dark" type="submit"><i class="fa fa-search"></i> Search</button>
+                                <a class="btn btn-outline-dark" href="disapproved.php"><i class="fas fa-redo"></i></a>
+                                <button class="btn btn-outline-dark" name ="search_btn" type="submit"><i class="fa fa-search"></i> Search</button>
                             </div>
                         </div>
                     </form>

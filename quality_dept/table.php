@@ -33,6 +33,29 @@ if($query)
     $result = mysqli_query($link,$query);
 }
 
+if(isset($_POST['search_btn'])) {
+    $defect_id = mysqli_real_escape_string($link,$_POST['search']);
+    switch($filter) {
+        case 'tot_defects':
+            $query = "SELECT * FROM defects WHERE id='$defect_id' ";
+            break;
+        case 'pending_defects':
+            $query = "SELECT * FROM defects WHERE found_by= '$id' and id='$defect_id' and defect_status='DISAPPROVED'";
+            break;
+        case 'expired':
+            $query = "SELECT * FROM defects WHERE found_by= '$id' and id='$defect_id' and 
+                    (defect_status='ASSIGNED' or defect_status='ACCEPTED_1' OR defect_status='REJECTED' OR defect_status='DISAPPROVED') 
+                    and due_date < CURDATE()";
+            break;
+    }
+    if($query)
+    {
+        $result = mysqli_query($link,$query);
+        if(!$result)
+            echo "<div class='alert alert-danger'>No data available!<br>".mysqli_error($link)."</div>";
+    }
+}
+
 ?>
 
 <main style="margin-top: 30px;">
@@ -42,20 +65,21 @@ if($query)
                 <div class="text-right mb-3">
                     <form method="post">
                         <div class="input-group">
-                            <input type="text" placeholder="Search Defect or Defect ID or Found On Date in format DD-MM-YYYY" class="form-control" name="search" {% if search_query %}value="{{ search_query }}"{% endif %}>
+                            <input type="text" placeholder="Search Defect ID" class="form-control" name="search">
                             <div class="input-group-append">
-                                <input class="btn btn-outline-dark" type="hidden">
-                                <button class="btn btn-outline-dark" type="submit"><i class="fa fa-search"></i> Search</button>
+                                <input class="btn btn-outline-dark" type="hidden"><?php
+
+if(isset($result) && strcmp($filter,'tot_defects') ===0) {echo'
+                                <a class="btn btn-outline-dark" href="table.php?data=tot_defects"> <i class="fas fa-redo"></i></a>
+                                <button class="btn btn-outline-dark" name="search_btn" type="submit"><i class="fa fa-search"></i> Search</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                        <?php
-
-if(isset($result) && strcmp($filter,'tot_defects') ===0) {
+                        <thead>';
+                        
 echo '
 <tr>
 <th> Defect ID </th>
@@ -71,6 +95,16 @@ echo '
 </tr>
 ';
 } else if(isset($result) && strcmp($filter,'pending_defects') ===0) {
+    echo'
+            <a class="btn btn-outline-dark" href="table.php?data=pending_defects"> <i class="fas fa-redo"></i></a>
+            <button class="btn btn-outline-dark" name="search_btn" type="submit"><i class="fa fa-search"></i> Search</button>
+        </div>
+    </div>
+</form>
+</div>
+<div class="table-responsive">
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>';
     echo '
     <tr>
     <th> Defect ID </th>
@@ -84,6 +118,16 @@ echo '
     ';
 }
 else if (isset($result) && strcmp($filter,'expired') ===0){
+    echo'
+                                <a class="btn btn-outline-dark" href="table.php?data=expired"> <i class="fas fa-redo"></i></a>
+                                <button class="btn btn-outline-dark" name="search_btn" type="submit"><i class="fa fa-search"></i> Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>';
     echo '
     <tr>
     <th> Defect ID </th>

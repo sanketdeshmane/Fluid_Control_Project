@@ -167,11 +167,6 @@ if(isset($_POST["download_btn"])){
     echo $html;
 }
 
-
-
-
-
-
 function mail_function($email,$subject,$msg){
     mail($email,$subject,$msg,'From: fluidcontrol2711@gmail.com');
 }
