@@ -8,6 +8,16 @@ $query = "SELECT * FROM problem_solving" ;
 if($query){
     $result = mysqli_query($link,$query);
 }
+if(isset($_POST['search_btn'])) {
+    $defect_id = mysqli_real_escape_string($link,$_POST['search']);
+    $query = "SELECT * FROM problem_solving WHERE defect_id='$defect_id'";
+    if($query)
+    {
+        $result = mysqli_query($link,$query);
+        if(!$result)
+            echo "<div class='alert alert-danger'>No data available!<br>".mysqli_error($link)."</div>";
+    }
+}
 ?>
 
 <main style="margin-top: 30px;">
@@ -17,10 +27,11 @@ if($query){
                 <div class="text-right mb-3">
                     <form method="post">
                         <div class="input-group">
-                            <input type="text" placeholder="Search Defect or Defect ID or Found On Date in format DD-MM-YYYY" class="form-control" name="search" {% if search_query %}value="{{ search_query }}"{% endif %}>
+                            <input type="text" placeholder="Search Defect ID" class="form-control" name="search">
                             <div class="input-group-append">
                                 <input class="btn btn-outline-dark" type="hidden">
-                                <button class="btn btn-outline-dark" type="submit"><i class="fa fa-search"></i> Search</button>
+                                <a class="btn btn-outline-dark" href="problem_solving.php"><i class="fas fa-redo"></i></a>
+                                <button class="btn btn-outline-dark" name="search_btn" type="submit"><i class="fa fa-search"></i> Search</button>
                             </div>
                         </div>
                     </form>

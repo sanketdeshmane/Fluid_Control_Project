@@ -31,6 +31,33 @@ if($query){
     $result = mysqli_query($link,$query);
 }
 
+if(isset($_POST['search_btn'])) {
+    $defect_id = mysqli_real_escape_string($link,$_POST['search']);
+    switch($filter) {
+        case 'tot_defects':
+            $query = "SELECT * FROM defects WHERE id='$defect_id' ";
+            break;
+        case 'expired':
+            $query = "SELECT * FROM defects WHERE assigned_to= '$id' and id='$defect_id' and 
+                (defect_status='ASSIGNED' or defect_status='ACCEPTED_1' OR defect_status='REJECTED' OR defect_status='DISAPPROVED') 
+                and due_date <CURDATE()";
+            break;
+        default:
+            $query = false;
+            $php_errormsg = '404 - PAGE NOT FOUND!';
+    }
+    if($query)
+    {
+        $result = mysqli_query($link,$query);
+        if(!$result)
+            echo "<div class='alert alert-danger'>No data available!<br>".mysqli_error($link)."</div>";
+    }
+    elseif ($php_errormsg)
+        {
+            $result = false;
+            echo "<div class='alert alert-danger'>".$php_errormsg."</div>";
+        }
+}
 
 ?>
 
@@ -41,19 +68,21 @@ if($query){
                 <div class="text-right mb-3">
                     <form method="post">
                         <div class="input-group">
-                            <input type="text" placeholder="Search Defect or Defect ID or Found On Date in format DD-MM-YYYY" class="form-control" name="search" {% if search_query %}value="{{ search_query }}"{% endif %}>
+                            <input type="text" placeholder="Search Defect ID" class="form-control" name="search">
                             <div class="input-group-append">
                                 <input class="btn btn-outline-dark" type="hidden">
-                                <button class="btn btn-outline-dark" type="submit"><i class="fa fa-search"></i> Search</button>
+                                <?php
+                            if(isset($result) && strcmp($filter,'tot_defects') ===0) { echo'
+                                <a class="btn btn-outline-dark" href="table.php?data1=tot_defects"><i class="fas fa-redo"></i></a>
+                                <button class="btn btn-outline-dark" name="search_btn" type="submit"><i class="fa fa-search"></i> Search</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <?php
-                            if(isset($result) && strcmp($filter,'tot_defects') ===0) {
+                        <thead>';
+                            
                                 echo'
                                 <tr>
                                 <th> Defect ID </th>
@@ -67,6 +96,16 @@ if($query){
                             </tr>';
                             }
                             else if(isset($result) && strcmp($filter,'expired') ===0){
+                                echo'
+                                <a class="btn btn-outline-dark" href="table.php?data1=expired"><i class="fas fa-redo"></i></a>
+                                <button class="btn btn-outline-dark" name="search_btn" type="submit"><i class="fa fa-search"></i> Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>';
                                 echo'
                                 <tr>
                                 <th> Defect ID </th>
